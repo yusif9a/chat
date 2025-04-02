@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: chat
+
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/store_db
+    username: django062
+    password: secretkey
+
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+
+
+
+
+
+
+
+
+
+application:
+  security:
+    jwt:
+      security-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000
+      refresh-token:
+        expiration: 604800000
+server:
+  port: 8086
