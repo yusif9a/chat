@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,9 @@ public class UserEntity implements UserDetails {
     String password;
     @Enumerated(EnumType.STRING)
     UserRole userRole;
+
+    LocalDateTime registerDate = LocalDateTime.now();
+    LocalDateTime lastUpdateDate = LocalDateTime.now();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

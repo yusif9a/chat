@@ -6,6 +6,7 @@ import com.chat.dao.entity.UserEntity;
 import com.chat.dao.repository.TokenRepository;
 import com.chat.dao.repository.UserRepository;
 import com.chat.dto.request.RegistrationRequest;
+import com.chat.service.RegistrationStrategy;
 import com.chat.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
+    private final RegistrationStrategy registrationStrategy;
     @Override
     public void register(RegistrationRequest request) {
 
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
         var jwtToken = jwtService.generateToken(saveUser);
         var refreshToken = jwtService.generateRefreshToken(saveUser);
         saveUserToken(userEntity, jwtToken);
-
+        registrationStrategy.register(request);
     }
 
 
