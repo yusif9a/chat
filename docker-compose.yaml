@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_DB: chat062
+      POSTGRES_USER: django062
+      POSTGRES_PASSWORD: secretkey
+
+    ports:
+      - '5433:5432'

@@ -24,4 +24,7 @@ public class TokenEntity {
     boolean revoked;
     boolean expired;
 
+    @ManyToOne
+    UserEntity user;
+
 }
