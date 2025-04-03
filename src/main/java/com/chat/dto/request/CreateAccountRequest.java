@@ -7,6 +7,8 @@ import jakarta.persistence.Enumerated;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor
@@ -16,10 +18,13 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @FieldDefaults(level = PRIVATE)
 public class CreateAccountRequest {
-
+    String email;
     String firstname;
     String lastname;
     Integer age;
+
+    LocalDateTime createDate;
+    LocalDateTime updateDate;
     @Enumerated(EnumType.STRING)
     Gender gender;
     @Enumerated(EnumType.STRING)
@@ -42,6 +47,8 @@ public class CreateAccountRequest {
                .firstname(request.getFirstName())
                .gender(request.getGender())
                .lastname(request.getLastName())
+               .email(request.getEmail())
+               .createDate(LocalDateTime.now())
                .build();
 
     }

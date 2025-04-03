@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 import static com.chat.mapper.UserMapper.USER_MAPPER;
 import static com.chat.model.enums.TokenType.BEARER;
 
@@ -49,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
     private UserEntity getUserEntity(RegistrationRequest request){
         var user = USER_MAPPER.RegistrationRequest(request);
+        user.setRegisterDate(LocalDateTime.now());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
     }
