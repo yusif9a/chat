@@ -45,6 +45,12 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.3'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.15'
+
+
+	compileOnly "org.mapstruct:mapstruct:$mapstructVersion"
+	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+	compileOnly "org.mapstruct:mapstruct:$mapstructVersion"
+	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 }
 
 tasks.named('test') {

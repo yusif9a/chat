@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import static jakarta.persistence.CascadeType.ALL;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table
+@Builder
 public class UserEntity implements UserDetails {
 
     @Id
@@ -34,7 +37,11 @@ public class UserEntity implements UserDetails {
 
     LocalDateTime registerDate = LocalDateTime.now();
     LocalDateTime lastUpdateDate = LocalDateTime.now();
+    @OneToMany(mappedBy = "user", cascade = ALL)
+    Set<TokenEntity> tokens;
 
+    @OneToMany(mappedBy = "user", cascade = ALL)
+    Set<AccountEntity> accounts;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(userRole.name()));
@@ -70,6 +77,5 @@ public class UserEntity implements UserDetails {
     }
 
 
-    @OneToMany
-    Set<TokenEntity> tokens;
+
 }

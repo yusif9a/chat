@@ -25,6 +25,7 @@ public class TokenEntity {
     boolean expired;
 
     @ManyToOne
-    UserEntity user;
+    @JoinColumn(referencedColumnName = "id", name = "user_id")
+    private UserEntity user;
 
 }

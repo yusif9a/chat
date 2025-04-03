@@ -21,9 +21,13 @@ public class AccountEntity {
 
     String name;
     String lastname;
-    Long age;
+    Integer age;
     @Enumerated(EnumType.STRING)
     Gender gender;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity user;
 
 
 }

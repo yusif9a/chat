@@ -1,6 +1,7 @@
 package com.chat.dto.request;
 
 import com.chat.model.enums.Gender;
+import com.chat.model.enums.UserRole;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
@@ -21,13 +22,27 @@ public class CreateAccountRequest {
     Integer age;
     @Enumerated(EnumType.STRING)
     Gender gender;
+    @Enumerated(EnumType.STRING)
+    UserRole role;
 
-    public CreateAccountRequest from(RegistrationRequest request){
-        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
-        createAccountRequest.firstname = firstname;
-        createAccountRequest.lastname = lastname;
-        createAccountRequest.age = age;
-        createAccountRequest.gender = gender;
-        return createAccountRequest;
+//    public CreateAccountRequest from(RegistrationRequest request){
+//        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
+//        createAccountRequest.firstname = request.getFirstName();
+//        createAccountRequest.lastname = request.getLastName();
+//        createAccountRequest.age = request.getAge();
+//        createAccountRequest.gender = request.getGender();
+//        createAccountRequest.setRole(request.getRole());
+//
+//        return createAccountRequest;
+//    }
+
+    public static CreateAccountRequest from(RegistrationRequest request){
+       return CreateAccountRequest.builder()
+               .age(request.getAge())
+               .firstname(request.getFirstName())
+               .gender(request.getGender())
+               .lastname(request.getLastName())
+               .build();
+
     }
 }

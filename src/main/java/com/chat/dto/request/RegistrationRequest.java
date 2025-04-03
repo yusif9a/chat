@@ -1,5 +1,6 @@
 package com.chat.dto.request;
 
+import com.chat.model.enums.Gender;
 import com.chat.model.enums.UserRole;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,8 @@ public class RegistrationRequest {
     @Min(value = 18, message = "Age must be at least 18")
     @Max(value = 150, message = "Age must be less than 150")
     Integer age;
+    @NotNull(message = "Gender could not be empty")
+    Gender gender;
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     String email;

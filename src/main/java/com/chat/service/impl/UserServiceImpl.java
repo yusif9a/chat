@@ -5,13 +5,16 @@ import com.chat.dao.entity.TokenEntity;
 import com.chat.dao.entity.UserEntity;
 import com.chat.dao.repository.TokenRepository;
 import com.chat.dao.repository.UserRepository;
+import com.chat.dto.request.CreateAccountRequest;
 import com.chat.dto.request.RegistrationRequest;
+import com.chat.model.enums.UserRole;
 import com.chat.service.RegistrationStrategy;
 import com.chat.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.chat.mapper.UserMapper.USER_MAPPER;
 import static com.chat.model.enums.TokenType.BEARER;
 
 @Service
@@ -23,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final RegistrationStrategy registrationStrategy;
+
     @Override
     public void register(RegistrationRequest request) {
 
@@ -44,8 +48,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserEntity getUserEntity(RegistrationRequest request){
-        var user = new UserEntity();
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        var user = USER_MAPPER.RegistrationRequest(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
     }
 
