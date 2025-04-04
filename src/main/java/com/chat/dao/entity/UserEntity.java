@@ -42,6 +42,13 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = ALL)
     Set<AccountEntity> accounts;
+
+    @OneToMany(cascade = ALL, mappedBy = "sender")
+    Set<MessageEntity> senderMessage;
+
+    @OneToMany(cascade = ALL, mappedBy = "receiver")
+    Set<MessageEntity> receiverMessage;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(userRole.name()));
