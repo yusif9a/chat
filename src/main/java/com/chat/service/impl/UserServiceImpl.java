@@ -7,10 +7,13 @@ import com.chat.dao.repository.TokenRepository;
 import com.chat.dao.repository.UserRepository;
 import com.chat.dto.request.CreateAccountRequest;
 import com.chat.dto.request.RegistrationRequest;
+import com.chat.dto.request.UserLoginRequest;
+import com.chat.dto.response.UserLoginResponse;
 import com.chat.model.enums.UserRole;
 import com.chat.service.RegistrationStrategy;
 import com.chat.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final RegistrationStrategy registrationStrategy;
+    private final AuthenticationManager authenticationManager;
+
 
     @Override
     public void register(RegistrationRequest request) {
@@ -42,6 +47,33 @@ public class UserServiceImpl implements UserService {
         var refreshToken = jwtService.generateRefreshToken(saveUser);
         saveUserToken(userEntity, jwtToken);
         registrationStrategy.register(request);
+    }
+
+    @Override
+    public UserLoginResponse login(UserLoginRequest request) {
+        if (!checkIfExists(request.getEmail())){
+            throw new RuntimeException();
+        }
+
+        UserEntity user = userRepository.findByEmail(request.getEmail()).get();
+
+        if (passwordEncoder.matches(request.getPassword(), user.getPassword())){
+//            TokenEntity sessionToken = new TokenEntity();
+//            sessionToken.setUser(user);
+//            sessionToken.setCreateAt(LocalDateTime.now());
+            String jwtToken = jwtService.generateToken(user);
+//            sessionToken.setToken(jwtToken);
+
+
+            saveUserToken(user, jwtToken);
+            return UserLoginResponse.builder()
+                    .token(jwtToken)
+                    .build();
+
+        }else {
+            throw new RuntimeException("Username or Password incorrect !");
+        }
+
     }
 
 

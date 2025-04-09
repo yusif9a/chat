@@ -8,14 +8,17 @@ import com.chat.dto.request.MessageRequest;
 import com.chat.dto.response.MessageResponse;
 import com.chat.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 
-import static com.chat.util.SecurityUtil.getAuthenticatedEmail;
+
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
@@ -23,8 +26,9 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public MessageResponse sendMessage(MessageRequest messageRequest) {
-        String senderEmail = getAuthenticatedEmail();
+    public MessageResponse sendMessage(MessageRequest messageRequest, Principal principal) {
+
+        String senderEmail = principal.getName();
         UserEntity sender = userRepository.findByEmail(senderEmail).orElseThrow();
 
         UserEntity receiverEmail = userRepository.findById(messageRequest.getReceiverId()).orElseThrow();
@@ -34,7 +38,9 @@ public class MessageServiceImpl implements MessageService {
         message.setSenderDate(LocalDateTime.now());
         message.setSender(sender);
         message.setReceiver(receiverEmail);
+
         messageRepository.save(message);
+
         return MessageResponse.builder()
                 .sendAt(LocalDateTime.now())
                 .content(messageRequest.getContent())

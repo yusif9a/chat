@@ -30,7 +30,8 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/api/v1/user/register"};
+            "/api/v1/user/register",
+            "/api/v1/user/login"};
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -45,7 +46,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(POST, "/v1/user/register").permitAll()
                                 .requestMatchers(POST, "/v1/product/**").permitAll()
                                 .requestMatchers("/v1/register/**", "/v1/product/**", "/swagger-ui/**").permitAll()
-
+                                .requestMatchers("/api/v1/message/test").permitAll()
+                                .requestMatchers("/api/v1/message/send_message").hasAuthority("USER")
                 )
 
                 .cors(AbstractHttpConfigurer::disable)

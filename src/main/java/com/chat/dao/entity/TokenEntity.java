@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class TokenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String token;
+    LocalDateTime createAt;
     @Enumerated(EnumType.STRING)
     TokenType tokenType;
 
