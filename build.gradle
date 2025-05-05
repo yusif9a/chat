@@ -51,6 +51,16 @@ dependencies {
 	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
 	compileOnly "org.mapstruct:mapstruct:$mapstructVersion"
 	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+
+	//kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	//prometheus
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	implementation 'net.bramp.ffmpeg:ffmpeg:0.8.0'
 }
 
 tasks.named('test') {

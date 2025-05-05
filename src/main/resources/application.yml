@@ -1,26 +1,15 @@
 spring:
-  application:
-    name: chat
+  profiles:
+    include:
+      - db
+      - common
+      - kafka
+      - prometheus
+    active: prod
 
 
-  datasource:
-    url: jdbc:postgresql://localhost:5433/chat062
-    username: django062
-    password: secretkey
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
 
 
-application:
-  security:
-    jwt:
-      security-key: WmFxYXRhbGExOTkwMjAxODIwMTkyMDIyTWFoaXJBeWxpbjkwT3g5NjJIYXlhbGxlckFtZXJpa2FIYXlhdGxhcg==
-      expiration: 86400000
-      refresh-token:
-        expiration: 604800000
-server:
-  port: 8086
+
+
+

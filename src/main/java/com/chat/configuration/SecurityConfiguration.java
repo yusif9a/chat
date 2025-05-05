@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
                                 .requestMatchers(POST, "/v1/user/register").permitAll()
+                                .requestMatchers("/actuator/prometheus").permitAll()
                                 .requestMatchers(POST, "/v1/product/**").permitAll()
                                 .requestMatchers("/v1/register/**", "/v1/product/**", "/swagger-ui/**").permitAll()
                                 .requestMatchers("/api/v1/message/test").permitAll()

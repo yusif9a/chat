@@ -4,11 +4,15 @@ import com.chat.dao.entity.MessageEntity;
 import com.chat.dao.entity.UserEntity;
 import com.chat.dao.repository.MessageRepository;
 import com.chat.dao.repository.UserRepository;
+import com.chat.dto.request.KafkaMessageDto;
 import com.chat.dto.request.MessageRequest;
 import com.chat.dto.response.MessageResponse;
+//import com.chat.producer.KafkaProducerService;
+import com.chat.producer.KafkaProducerService;
 import com.chat.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -23,6 +27,7 @@ public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final KafkaProducerService kafkaProducer;
 
 
     @Override
@@ -33,13 +38,17 @@ public class MessageServiceImpl implements MessageService {
 
         UserEntity receiverEmail = userRepository.findById(messageRequest.getReceiverId()).orElseThrow();
 
+
         MessageEntity message = new MessageEntity();
         message.setContent(messageRequest.getContent());
         message.setSenderDate(LocalDateTime.now());
         message.setSender(sender);
         message.setReceiver(receiverEmail);
 
-        messageRepository.save(message);
+        KafkaMessageDto kafkaMessageDto = new KafkaMessageDto(senderEmail, receiverEmail.getEmail(),message.getContent(),message.getSenderDate());
+        kafkaProducer.sendMessage(kafkaMessageDto);
+
+
 
         return MessageResponse.builder()
                 .sendAt(LocalDateTime.now())
